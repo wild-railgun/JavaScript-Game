@@ -69,12 +69,13 @@ function updateGame() {
     const rightBound = canvas.width * 0.60; // 60% of the screen width
 
     // Move the player to the left if within the bounds
-    if (keys["ArrowLeft"] && player.x > leftBound) {
+    if ((keys["ArrowLeft"] && player.x > leftBound)|| 
+    (keys["ArrowLeft"] && offSet === 0 && player.x > leftBound)) {
     player.x -= player.speed;
     }
 
     // Scroll the world to the right if the player hits the left bound
-    else if (keys["ArrowLeft"] && player.x <= leftBound) {
+    else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
     platforms.forEach(platform => platform.x += player.speed);
     backgroundX += backgroundSpeed;
     offSet -= 5
