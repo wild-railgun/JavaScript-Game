@@ -77,6 +77,7 @@ function updateGame() {
     else if (keys["ArrowLeft"] && player.x <= leftBound) {
     platforms.forEach(platform => platform.x += player.speed);
     backgroundX += backgroundSpeed;
+    offSet -= 5
     }
 
     // Move the player to the right if within the bounds
@@ -87,8 +88,12 @@ function updateGame() {
     else if (keys["ArrowRight"] && player.x >= rightBound) {
     platforms.forEach(platform => platform.x -= player.speed);
     backgroundX -= backgroundSpeed;
+    offSet += 5
     }
 
+    if (offSet > 2000) {
+        console.log("You Win")
+    }
 
 
     /*
