@@ -2,7 +2,8 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const image = new Image();
-image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
+// image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
+image.src = "img/background.png";
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -15,21 +16,31 @@ const player = {
     speed: 10,
     jumping: false,
     dy: 0, // Vertical velocity
-    jumpPower: 20,
+    jumpPower: 22,
     gravity: 0.5, // Gravity force
 };
 
-// scrolling background
+// Platforms
+const platforms = [
+    { x: 50, y: canvas.height - 200, width: 250, height: 10 },
+    { x: 400, y: canvas.height - 300, width: 250, height: 10 },
+    { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
+    { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
+    { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
+    { x: 4000, y: canvas.height - 580, width: 250, height: 10 },
+    { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
+    { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
+    { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
+    { x: 8000, y: canvas.height - 580, width: 250, height: 10 },
+    // Add more platforms as needed
+];
 
+// Scrolling Background
 let backgroundX = 0; // Initial background X position
 const backgroundSpeed = 3; // Speed of background scrolling
 
-const platforms = [
-    { x: 50, y: canvas.height - 200, width: 200, height: 10 },
-    { x: 400, y: canvas.height - 300, width: 200, height: 10 },
-    { x: 650, y: canvas.height - 580, width: 200, height: 10 },
-    // Add more platforms as needed
-];
+// Winning Situation
+let offSet = 0;
 
 // A function to draw the player character.
 function drawPlayer() {
@@ -54,20 +65,55 @@ function updateGame() {
     drawPlayer();
     drawPlatforms();
 
-    if (keys["ArrowLeft"] && player.x > 0) {
-        player.x -= player.speed;
-        backgroundX += backgroundSpeed; // Scroll background to the left when player moves right
-    }
-    if (keys["ArrowRight"] && player.x + player.width < canvas.width) {
-        player.x += player.speed;
-        backgroundX -= backgroundSpeed; // Scroll background to the left when player moves right
+    const leftBound = canvas.width * 0.10; // 10% of the screen width
+    const rightBound = canvas.width * 0.60; // 60% of the screen width
+
+    // Move the player to the left if within the bounds
+    if (keys["ArrowLeft"] && player.x > leftBound) {
+    player.x -= player.speed;
     }
 
+    // Scroll the world to the right if the player hits the left bound
+    else if (keys["ArrowLeft"] && player.x <= leftBound) {
+    platforms.forEach(platform => platform.x += player.speed);
+    backgroundX += backgroundSpeed;
+    }
+
+    // Move the player to the right if within the bounds
+    if (keys["ArrowRight"] && player.x < rightBound) {
+    player.x += player.speed;
+    }
+    // Scroll the world to the left if the player hits the right bound
+    else if (keys["ArrowRight"] && player.x >= rightBound) {
+    platforms.forEach(platform => platform.x -= player.speed);
+    backgroundX -= backgroundSpeed;
+    }
+
+
+
+    /*
+    // Move the player left or right within the bounds
+    if (keys["ArrowLeft"] && player.x > leftBound) {
+        player.x -= player.speed;
+    }
+    else if (keys["ArrowRight"] && player.x < rightBound) {
+        player.x += player.speed;
+    }
+
+    // If the player reaches the bounds, scroll the background and platforms
+    if ((keys["ArrowLeft"] && player.x <= leftBound) ||
+        (keys["ArrowRight"] && player.x >= rightBound)) {
+        const scrollDirection = keys["ArrowLeft"] ? 1 : -1;
+        platforms.forEach(platform => platform.x += player.speed * scrollDirection);
+        backgroundX += backgroundSpeed * scrollDirection;
+    }
+    */
     // Handle jumping
     if ((keys["ArrowUp"] || keys[" "]) && !player.jumping) {
         player.jumping = true;
         player.dy = -player.jumpPower; // Jump upwards
     }
+    
 
     // Apply gravity
     player.dy += player.gravity;
