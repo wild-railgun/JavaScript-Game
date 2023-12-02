@@ -129,10 +129,10 @@ function updateGame() {
     player.y += player.dy;
 
     // Check collision with ground
-    if (player.y >= canvas.height - player.height) {
-        player.y = canvas.height - player.height;
-        player.jumping = false;
-    }
+    // if (player.y >= canvas.height - player.height) {
+        // player.y = canvas.height - player.height;
+        // player.jumping = false;
+    // }
 
     // Check collision with platforms
     for (let platform of platforms) {
