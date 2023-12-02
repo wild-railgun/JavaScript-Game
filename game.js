@@ -95,7 +95,7 @@ function updateGame() {
     offSet += 5
     }
 
-    if (offSet > 2000) {
+    if (offSet > 5000) {
         console.log("You Win")
     }
 
