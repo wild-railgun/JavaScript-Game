@@ -31,7 +31,10 @@ const platforms = [
     { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
     { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
     { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
-    { x: 8000, y: canvas.height - 580, width: 250, height: 10 },
+    { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
+    { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
+    { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
+    { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
     // Add more platforms as needed
 ];
 
