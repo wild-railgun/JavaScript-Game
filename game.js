@@ -53,6 +53,9 @@ player.sprites = {
 player.currentSprite = player.sprites.stand.right; // Now correctly refers to 'player.sprites.stand.right'
 player.currentCropWidth = player.sprites.stand.cropWidth;
 
+// Add a property to track the last direction
+player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
+
 // Platforms
 const platforms = [
     { x: 50, y: canvas.height - 200, width: 250, height: 10 },
@@ -133,40 +136,103 @@ function updateGame() {
     const leftBound = canvas.width * 0.10; // 10% of the screen width
     const rightBound = canvas.width * 0.60; // 60% of the screen width
 
+    /*
     // Move the player to the left if within the bounds
     if ((keys["ArrowLeft"] && player.x > leftBound)|| 
     (keys["ArrowLeft"] && offSet === 0 && player.x > leftBound)) {
     player.x -= player.speed;
+    player.currentSprite = player.sprites.run.left;
+            player.currentCropWidth = player.sprites.run.cropWidth;
+            player.width = player.sprites.run.width;
+            player.lastDirection = 'left';
     }
 
     // Scroll the world to the right if the player hits the left bound
     else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
     platforms.forEach(platform => platform.x += player.speed);
     backgroundX += backgroundSpeed;
-    offSet -= 5
+    offSet -= 5;
     }
 
     // Move the player to the right if within the bounds
     if (keys["ArrowRight"] && player.x < rightBound) {
     player.x += player.speed;
+    player.currentSprite = player.sprites.run.right;
+    player.lastDirection = 'right';
+            player.currentCropWidth = player.sprites.run.cropWidth;
+            player.width = player.sprites.run.width;
     }
     // Scroll the world to the left if the player hits the right bound
     else if (keys["ArrowRight"] && player.x >= rightBound) {
     platforms.forEach(platform => platform.x -= player.speed);
     backgroundX -= backgroundSpeed;
-    offSet += 5
+    offSet += 5;
+    player.currentSprite = player.sprites.run.right;
+    player.lastDirection = 'right';
+            player.currentCropWidth = player.sprites.run.cropWidth;
+            player.width = player.sprites.run.width;
+    }else {
+        // Key release logic
+        if (player.lastDirection === 'left') {
+            player.currentSprite = player.sprites.stand.left;
+        } else {
+            player.currentSprite = player.sprites.stand.right;
+        }
+        player.currentCropWidth = player.sprites.stand.cropWidth;
+        player.width = player.sprites.stand.width;
+    }
+    */
+
+    function updatePlayerSprite(spriteType, direction) {
+        player.currentSprite = player.sprites[spriteType][direction];
+        player.currentCropWidth = player.sprites[spriteType].cropWidth;
+        player.width = player.sprites[spriteType].width;
+        player.lastDirection = direction;
     }
 
-    if (offSet > 5000) {
-        console.log("You Win")
+    // Move the player to the left if within the bounds
+    if ((keys["ArrowLeft"] && player.x > leftBound)|| 
+    (keys["ArrowLeft"] && offSet === 0 && player.x > leftBound)) {
+    player.x -= player.speed;
+    updatePlayerSprite('run', 'left');
+    } else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
+    platforms.forEach(platform => platform.x += player.speed);
+    backgroundX += backgroundSpeed;
+    offSet -= 5;
+    updatePlayerSprite('run', 'left');
+    } else if (keys["ArrowRight"] && player.x < rightBound) {
+    player.x += player.speed;
+    updatePlayerSprite('run', 'right');
+    } else if (keys["ArrowRight"] && player.x >= rightBound) {
+    platforms.forEach(platform => platform.x -= player.speed);
+    backgroundX -= backgroundSpeed;
+    offSet += 5;
+    updatePlayerSprite('run', 'right');
+    } else {
+        // Key release logic
+        updatePlayerSprite('stand', player.lastDirection);
     }
+    
+
+
+
+
+
+
+
+
+
+
 
     // Handle jumping
     if ((keys["ArrowUp"] || keys[" "]) && !player.jumping) {
         player.jumping = true;
         player.dy = -player.jumpPower; // Jump upwards
     }
-    
+
+    if (offSet > 5000) {
+        console.log("You Win")
+    }
 
     // Apply gravity
     player.dy += player.gravity;
