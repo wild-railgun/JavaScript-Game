@@ -67,18 +67,40 @@ player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
 const platforms = [
     // { x: 50, y: canvas.height - 200, width: 250, height: 10 },
     // { x: 400, y: canvas.height - 300, width: 250, height: 10 },
-    { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
-    { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
-    { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
-    { x: 4000, y: canvas.height - 580, width: 250, height: 10 },
-    { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
-    { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
-    { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
-    { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
-    { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
-    { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
-    { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
-    { x: 6000, y: canvas.height - 50, width: 150000, height: 10 },
+    // ctx.drawImage(platformImage, 0, 500, 250, 100),
+    // { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
+    // { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
+    // { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
+    // { x: 4000, y: canvas.height - 580, width: 250, height: 10 },
+    // { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
+    // { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
+    // { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
+    
+    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.height },
+    
+    { x: 0, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width - 2, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 2 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 3 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 4 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 5 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 6 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 7 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 8 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 9 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 10 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+    { x: platformImage.width * 11 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+
+
+
+    // { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
+    // { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
+    // { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
+    // { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
+    // { x: 6000, y: canvas.height - 50, width: 15000, height: 10 },
     // Add more platforms as needed
 ];
 
@@ -88,7 +110,7 @@ const backgroundSpeed = 3; // Speed of background scrolling
 
 // Scrolling Hills
 let backgroundX2 = 0; // Initial background X position
-const backgroundSpeed2 = 1; // Speed of background scrolling
+const backgroundSpeed2 = 2; // Speed of background scrolling
 
 // Winning Situation
 let offSet = 0;
@@ -117,7 +139,7 @@ function drawPlayer() {
 function drawPlatforms() {
     ctx.fillStyle = "green";
     platforms.forEach((platform) => {
-      ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+      ctx.drawImage(platformImage, platform.x, platform.y, platformImage.width, platformImage.height);
     });
 }
 
@@ -214,7 +236,7 @@ function updateGame() {
     } else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
     platforms.forEach(platform => platform.x += player.speed);
     backgroundX += backgroundSpeed;
-    background2 += backgroundSpeed2;
+    backgroundX2 += backgroundSpeed2;
     offSet -= 5;
     updatePlayerSprite('run', 'left');
     } else if (keys["ArrowRight"] && player.x < rightBound) {
@@ -232,7 +254,6 @@ function updateGame() {
         updatePlayerSprite('stand', player.lastDirection);
     }
     
-
     // Handle jumping
     if ((keys["ArrowUp"] || keys[" "]) && !player.jumping) {
         player.jumping = true;
