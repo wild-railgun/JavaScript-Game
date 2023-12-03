@@ -12,6 +12,13 @@ const image = new Image();
 // image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
 image.src = "img/background.png";
 
+// Images 
+let platformImage = createImage('./img/platform.png');
+let platformSmallTallImage = createImage('./img/platformSmallTall.png');
+let hills = createImage('./img/hills.png');
+let background = createImage('./img/background.png');
+// let mars = createImage('./img/mars.jfif');
+
 // Sprite
 let spriteRunLeft = createImage('./img/spriteRunLeft.png');
 let spriteRunRight = createImage('./img/spriteRunRight.png');
@@ -58,8 +65,8 @@ player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
 
 // Platforms
 const platforms = [
-    { x: 50, y: canvas.height - 200, width: 250, height: 10 },
-    { x: 400, y: canvas.height - 300, width: 250, height: 10 },
+    // { x: 50, y: canvas.height - 200, width: 250, height: 10 },
+    // { x: 400, y: canvas.height - 300, width: 250, height: 10 },
     { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
     { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
     { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
@@ -71,12 +78,17 @@ const platforms = [
     { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
     { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
     { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
+    { x: 6000, y: canvas.height - 50, width: 150000, height: 10 },
     // Add more platforms as needed
 ];
 
 // Scrolling Background
 let backgroundX = 0; // Initial background X position
 const backgroundSpeed = 3; // Speed of background scrolling
+
+// Scrolling Hills
+let backgroundX2 = 0; // Initial background X position
+const backgroundSpeed2 = 1; // Speed of background scrolling
 
 // Winning Situation
 let offSet = 0;
@@ -112,7 +124,7 @@ function drawPlatforms() {
 // Define a function to update the game's logic.
 function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    // ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     // Update player frames and sprites
     player.frame++;
@@ -128,10 +140,14 @@ function updateGame() {
         player.frame = 0;
     }
 
-    ctx.drawImage(image, backgroundX, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, backgroundX + canvas.width, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, backgroundX, 0, image.width, canvas.height);
+    // ctx.drawImage(image, backgroundX + canvas.width, 0, canvas.width, canvas.height);
+    ctx.drawImage(hills, backgroundX2, 20, hills.width, hills.height);
+    ctx.drawImage(hills, backgroundX2+800, 20, hills.width, hills.height);
+    // ctx.drawImage(platformImage, 0, canvas.height-platformImage.height, platformImage.width, platformImage.height);
     drawPlayer();
     drawPlatforms();
+   
 
     const leftBound = canvas.width * 0.10; // 10% of the screen width
     const rightBound = canvas.width * 0.60; // 60% of the screen width
@@ -192,12 +208,13 @@ function updateGame() {
 
     // Move the player to the left if within the bounds
     if ((keys["ArrowLeft"] && player.x > leftBound)|| 
-    (keys["ArrowLeft"] && offSet === 0 && player.x > leftBound)) {
+    (keys["ArrowLeft"] && offSet === 0 && player.x > 3)) {
     player.x -= player.speed;
     updatePlayerSprite('run', 'left');
     } else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
     platforms.forEach(platform => platform.x += player.speed);
     backgroundX += backgroundSpeed;
+    background2 += backgroundSpeed2;
     offSet -= 5;
     updatePlayerSprite('run', 'left');
     } else if (keys["ArrowRight"] && player.x < rightBound) {
@@ -206,6 +223,8 @@ function updateGame() {
     } else if (keys["ArrowRight"] && player.x >= rightBound) {
     platforms.forEach(platform => platform.x -= player.speed);
     backgroundX -= backgroundSpeed;
+    backgroundX2 -= backgroundSpeed2;
+
     offSet += 5;
     updatePlayerSprite('run', 'right');
     } else {
@@ -213,16 +232,6 @@ function updateGame() {
         updatePlayerSprite('stand', player.lastDirection);
     }
     
-
-
-
-
-
-
-
-
-
-
 
     // Handle jumping
     if ((keys["ArrowUp"] || keys[" "]) && !player.jumping) {
