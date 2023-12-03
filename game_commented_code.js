@@ -1,13 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Images
-function createImage(src) {
-    const img = new Image();
-    img.src = src;
-    return img;
-}
-
 const image = new Image();
 // image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
 image.src = "img/background.png";
@@ -28,30 +21,28 @@ const player = {
     height: 150,
     image: spriteStandRight,
     frame: 0,
+    sprites: {
+        stand: {
+            right: spriteStandRight,
+            cropWidth: 177,
+            width: this.width,
+            left: spriteStandLeft
+        },
+        run: {
+            right: spriteRunRight,
+            cropWidth: 341,
+            width: 127.875,
+            left: spriteRunLeft
+        }
+    },
+    currentSprite: sprites.stand.right,
+    currentCropWidth: 177,
     speed: 10,
     jumping: false,
     dy: 0, // Vertical velocity
     jumpPower: 22,
     gravity: 0.5, // Gravity force
 };
-
-// Now that 'player' is defined, we can properly assign properties that refer to 'player'.
-player.sprites = {
-    stand: {
-        right: spriteStandRight,
-        cropWidth: 177,
-        width: player.width, // Now correctly refers to 'player.width'
-        left: spriteStandLeft
-    },
-    run: {
-        right: spriteRunRight,
-        cropWidth: 341,
-        width: 127.875, // Ensure this is the correct value you want for the rendered width
-        left: spriteRunLeft
-    }
-};
-player.currentSprite = player.sprites.stand.right; // Now correctly refers to 'player.sprites.stand.right'
-player.currentCropWidth = player.sprites.stand.cropWidth;
 
 // Platforms
 const platforms = [
@@ -80,20 +71,19 @@ let offSet = 0;
 
 // A function to draw the player character.
 function drawPlayer() {
-        
-   // Draw player sprite
-    ctx.drawImage(
-        player.currentSprite,
-        player.currentCropWidth * player.frame,
-        0,
-        player.currentCropWidth,
-        400,
-        player.x, // Corrected from player.position.x
-        player.y, // Corrected from player.position.y
-        player.width, 
-        player.height
-    );
-   
+        player.frames++;
+        if (player.frames > 59 && (player.currentSprite === player.sprites.stand.right ||
+            player.currentSprite === player.sprites.stand.left)
+        ) {
+            player.frames = 0;
+        } else if (
+            player.frames > 29 && (
+            player.currentSprite === player.sprites.run.right || 
+            player.currentSprite === player.sprites.run.left)
+            ) {
+            player.frames = 0;
+        }
+    
 //    ctx.fillStyle = "blue"; // Player color
 //    ctx.fillRect(player.x, player.y, player.width, player.height);
 }
@@ -110,21 +100,17 @@ function drawPlatforms() {
 function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-    // Update player frames and sprites
-    player.frame++;
-    if (player.frame > 59 && (player.currentSprite === player.sprites.stand.right ||
-        player.currentSprite === player.sprites.stand.left)
-    ) {
-        player.frame = 0;
-    } else if (
-        player.frame > 29 && (
-        player.currentSprite === player.sprites.run.right || 
-        player.currentSprite === player.sprites.run.left)
-        ) {
-        player.frame = 0;
-    }
-
+    ctx.drawImage(
+        player.currentSprite,
+        player.currentCropWidth * player.frames,
+        0,
+        player.currentCropWidth,
+        400,
+        player.position.x, 
+        player.position.y, 
+        player.width, 
+        player.height
+    )
     ctx.drawImage(image, backgroundX, 0, canvas.width, canvas.height);
     ctx.drawImage(image, backgroundX + canvas.width, 0, canvas.width, canvas.height);
     drawPlayer();
@@ -161,6 +147,24 @@ function updateGame() {
         console.log("You Win")
     }
 
+
+    /*
+    // Move the player left or right within the bounds
+    if (keys["ArrowLeft"] && player.x > leftBound) {
+        player.x -= player.speed;
+    }
+    else if (keys["ArrowRight"] && player.x < rightBound) {
+        player.x += player.speed;
+    }
+
+    // If the player reaches the bounds, scroll the background and platforms
+    if ((keys["ArrowLeft"] && player.x <= leftBound) ||
+        (keys["ArrowRight"] && player.x >= rightBound)) {
+        const scrollDirection = keys["ArrowLeft"] ? 1 : -1;
+        platforms.forEach(platform => platform.x += player.speed * scrollDirection);
+        backgroundX += backgroundSpeed * scrollDirection;
+    }
+    */
     // Handle jumping
     if ((keys["ArrowUp"] || keys[" "]) && !player.jumping) {
         player.jumping = true;
@@ -171,6 +175,12 @@ function updateGame() {
     // Apply gravity
     player.dy += player.gravity;
     player.y += player.dy;
+
+    // Check collision with ground
+    // if (player.y >= canvas.height - player.height) {
+        // player.y = canvas.height - player.height;
+        // player.jumping = false;
+    // }
 
     // Check collision with platforms
     for (let platform of platforms) {
@@ -186,6 +196,34 @@ function updateGame() {
 
         }
     }
+
+    /*
+    // Check collision with platforms from top and from below as well
+
+    for (let platform of platforms) {
+        // Horizontal overlap
+        if (player.x + player.width > platform.x && player.x < platform.x + platform.width) {
+            
+            // Landing on top of the platform from above
+            if (player.dy > 0 && 
+                player.y + player.height >= platform.y && 
+                player.y + player.height - player.dy <= platform.y
+                ) {
+                    player.jumping = false;
+                    player.y = platform.y - player.height; 
+                    player.dy = 0;
+            }
+            
+            // Hitting the platform's bottom from below
+            else if (player.dy < 0 && 
+                    player.y + player.dy <= platform.y + platform.height &&
+                    player.y >= platform.y + platform.height) {
+                        player.dy = 0;
+                        player.y = platform.y + platform.height;
+            }
+        }
+    }
+    */
 
     requestAnimationFrame(updateGame);
 }
