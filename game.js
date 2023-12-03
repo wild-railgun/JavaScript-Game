@@ -5,14 +5,21 @@ const image = new Image();
 // image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
 image.src = "img/background.png";
 
+// Sprite
+let spriteRunLeft = createImage('./img/spriteRunLeft.png');
+let spriteRunRight = createImage('./img/spriteRunRight.png');
+let spriteStandLeft = createImage('./img/spriteStandLeft.png');
+let spriteStandRight = createImage('./img/spriteStandRight.png');
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const player = {
     x: canvas.width / 2 - 200,
     y: canvas.height - 500,
-    width: 50,
-    height: 50,
+    width: 66,
+    height: 150,
+    image: spriteStandRight;
     speed: 10,
     jumping: false,
     dy: 0, // Vertical velocity
