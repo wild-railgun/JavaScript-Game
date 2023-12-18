@@ -8,9 +8,9 @@ function createImage(src) {
     return img;
 }
 
-const image = new Image();
+// const image = new Image();
 // image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
-image.src = "img/background.png";
+// image.src = "img/background.png";
 
 // Images 
 let platformImage = createImage('./img/platform.png');
@@ -94,6 +94,9 @@ const platforms = [
     { x: platformImage.width * 10 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
     { x: platformImage.width * 11 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
 
+    { x: 0, y: canvas.height - 100, width: 250000, height: 100 },
+
+
 
 
     // { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
@@ -162,7 +165,8 @@ function updateGame() {
         player.frame = 0;
     }
 
-    ctx.drawImage(image, backgroundX, 0, image.width, canvas.height);
+    ctx.drawImage(background, backgroundX, 0, background.width, canvas.height);
+    // ctx.drawImage(image, backgroundX, 0, image.width, canvas.height);
     // ctx.drawImage(image, backgroundX + canvas.width, 0, canvas.width, canvas.height);
     ctx.drawImage(hills, backgroundX2, 20, hills.width, hills.height);
     ctx.drawImage(hills, backgroundX2+800, 20, hills.width, hills.height);
