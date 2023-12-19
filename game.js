@@ -12,18 +12,31 @@ function createImage(src) {
 // image.src = "_f709b0cd-51a9-49f2-a942-aace1b73fb3e.jfif";
 // image.src = "img/background.png";
 
+let imagesObj = {
+    platformImage: createImage('./img/platform.png'),
+    platformSmallTallImage: createImage('./img/platformSmallTall.png'),
+    hills: createImage('./img/hills.png'),
+    background: createImage('./img/background.png'),
+    mars: createImage('./img/mars.jfif'),
+
+    spriteRunLeft: createImage('./img/spriteRunLeft.png'),
+    spriteRunRight: createImage('./img/spriteRunRight.png'),
+    spriteStandLeft: createImage('./img/spriteStandLeft.png'),
+    spriteStandRight: createImage('./img/spriteStandRight.png'),
+};
+
 // Images 
-let platformImage = createImage('./img/platform.png');
-let platformSmallTallImage = createImage('./img/platformSmallTall.png');
-let hills = createImage('./img/hills.png');
-let background = createImage('./img/background.png');
+// let platformImage = createImage('./img/platform.png');
+// let platformSmallTallImage = createImage('./img/platformSmallTall.png');
+// let hills = createImage('./img/hills.png');
+// let background = createImage('./img/background.png');
 // let mars = createImage('./img/mars.jfif');
 
 // Sprite
-let spriteRunLeft = createImage('./img/spriteRunLeft.png');
-let spriteRunRight = createImage('./img/spriteRunRight.png');
-let spriteStandLeft = createImage('./img/spriteStandLeft.png');
-let spriteStandRight = createImage('./img/spriteStandRight.png');
+// let spriteRunLeft = createImage('./img/spriteRunLeft.png');
+// let spriteRunRight = createImage('./img/spriteRunRight.png');
+// let spriteStandLeft = createImage('./img/spriteStandLeft.png');
+// let spriteStandRight = createImage('./img/spriteStandRight.png');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -309,8 +322,8 @@ document.addEventListener("keyup", (event) => {
 
 // Start the game loop.
 
-// image.onload = function(){
+imagesObj.onload = function(){
 
     updateGame();
 
-// }
+}
