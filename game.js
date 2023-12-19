@@ -97,8 +97,6 @@ const platforms = [
     { x: 0, y: canvas.height - 100, width: 250000, height: 100 },
 
 
-
-
     // { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
     // { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
     // { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
@@ -133,9 +131,6 @@ function drawPlayer() {
         player.width, 
         player.height
     );
-   
-//    ctx.fillStyle = "blue"; // Player color
-//    ctx.fillRect(player.x, player.y, player.width, player.height);
 }
 
 // A function to draw the player character.
@@ -174,56 +169,8 @@ function updateGame() {
     drawPlayer();
     drawPlatforms();
    
-
     const leftBound = canvas.width * 0.10; // 10% of the screen width
     const rightBound = canvas.width * 0.60; // 60% of the screen width
-
-    /*
-    // Move the player to the left if within the bounds
-    if ((keys["ArrowLeft"] && player.x > leftBound)|| 
-    (keys["ArrowLeft"] && offSet === 0 && player.x > leftBound)) {
-    player.x -= player.speed;
-    player.currentSprite = player.sprites.run.left;
-            player.currentCropWidth = player.sprites.run.cropWidth;
-            player.width = player.sprites.run.width;
-            player.lastDirection = 'left';
-    }
-
-    // Scroll the world to the right if the player hits the left bound
-    else if (keys["ArrowLeft"] && player.x <= leftBound && offSet > 0) {
-    platforms.forEach(platform => platform.x += player.speed);
-    backgroundX += backgroundSpeed;
-    offSet -= 5;
-    }
-
-    // Move the player to the right if within the bounds
-    if (keys["ArrowRight"] && player.x < rightBound) {
-    player.x += player.speed;
-    player.currentSprite = player.sprites.run.right;
-    player.lastDirection = 'right';
-            player.currentCropWidth = player.sprites.run.cropWidth;
-            player.width = player.sprites.run.width;
-    }
-    // Scroll the world to the left if the player hits the right bound
-    else if (keys["ArrowRight"] && player.x >= rightBound) {
-    platforms.forEach(platform => platform.x -= player.speed);
-    backgroundX -= backgroundSpeed;
-    offSet += 5;
-    player.currentSprite = player.sprites.run.right;
-    player.lastDirection = 'right';
-            player.currentCropWidth = player.sprites.run.cropWidth;
-            player.width = player.sprites.run.width;
-    }else {
-        // Key release logic
-        if (player.lastDirection === 'left') {
-            player.currentSprite = player.sprites.stand.left;
-        } else {
-            player.currentSprite = player.sprites.stand.right;
-        }
-        player.currentCropWidth = player.sprites.stand.cropWidth;
-        player.width = player.sprites.stand.width;
-    }
-    */
 
     function updatePlayerSprite(spriteType, direction) {
         player.currentSprite = player.sprites[spriteType][direction];
@@ -283,7 +230,6 @@ function updateGame() {
                 player.jumping = false;
                 player.y = platform.y - player.height;
                 player.dy = 0;            
-
         }
     }
 
