@@ -309,8 +309,8 @@ document.addEventListener("keyup", (event) => {
 
 // Start the game loop.
 
-image.onload = function(){
+// image.onload = function(){
 
     updateGame();
 
-}
+// }
