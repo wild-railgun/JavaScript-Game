@@ -28,82 +28,90 @@ let spriteStandRight = createImage('./img/spriteStandRight.png');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const player = {
-    x: canvas.width / 2 - 200,
-    y: canvas.height - 500,
-    width: 66,
-    height: 150,
-    image: spriteStandRight,
-    frame: 0,
-    speed: 10,
-    jumping: false,
-    dy: 0, // Vertical velocity
-    jumpPower: 22,
-    gravity: 0.5, // Gravity force
-};
+let player = {};
+let platforms = [];
 
-// Now that 'player' is defined, we can properly assign properties that refer to 'player'.
-player.sprites = {
-    stand: {
-        right: spriteStandRight,
-        cropWidth: 177,
-        width: player.width, // Now correctly refers to 'player.width'
-        left: spriteStandLeft
-    },
-    run: {
-        right: spriteRunRight,
-        cropWidth: 341,
-        width: 127.875, // Ensure this is the correct value you want for the rendered width
-        left: spriteRunLeft
-    }
-};
-player.currentSprite = player.sprites.stand.right; // Now correctly refers to 'player.sprites.stand.right'
-player.currentCropWidth = player.sprites.stand.cropWidth;
+function init(){
 
-// Add a property to track the last direction
-player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
+    player = {
+        x: canvas.width / 2 - 200,
+        y: canvas.height - 500,
+        width: 66,
+        height: 150,
+        image: spriteStandRight,
+        frame: 0,
+        speed: 10,
+        jumping: false,
+        dy: 0, // Vertical velocity
+        jumpPower: 22,
+        gravity: 0.5, // Gravity force
+    };
 
-// Platforms
-const platforms = [
-    // { x: 50, y: canvas.height - 200, width: 250, height: 10 },
-    // { x: 400, y: canvas.height - 300, width: 250, height: 10 },
-    // ctx.drawImage(platformImage, 0, 500, 250, 100),
-    // { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
-    // { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
-    // { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
-    // { x: 4000, y: canvas.height - 580, width: 250, height: 10 },
-    // { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
-    // { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
-    // { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
+    // Now that 'player' is defined, we can properly assign properties that refer to 'player'.
+    player.sprites = {
+        stand: {
+            right: spriteStandRight,
+            cropWidth: 177,
+            width: player.width, // Now correctly refers to 'player.width'
+            left: spriteStandLeft
+        },
+        run: {
+            right: spriteRunRight,
+            cropWidth: 341,
+            width: 127.875, // Ensure this is the correct value you want for the rendered width
+            left: spriteRunLeft
+        }
+    };
+    player.currentSprite = player.sprites.stand.right; // Now correctly refers to 'player.sprites.stand.right'
+    player.currentCropWidth = player.sprites.stand.cropWidth;
+
+    // Add a property to track the last direction
+    player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
+
+    // Platforms
+    platforms = [
+        // { x: 50, y: canvas.height - 200, width: 250, height: 10 },
+        // { x: 400, y: canvas.height - 300, width: 250, height: 10 },
+        // ctx.drawImage(platformImage, 0, 500, 250, 100),
+        // { x: 1000, y: canvas.height - 380, width: 250, height: 10 },
+        // { x: 2000, y: canvas.height - 580, width: 250, height: 10 },
+        // { x: 3000, y: canvas.height - 380, width: 250, height: 10 },
+        // { x: 4000, y: canvas.height - 580, width: 250, height: 10 },
+        // { x: 5000, y: canvas.height - 380, width: 250, height: 10 },
+        // { x: 6000, y: canvas.height - 580, width: 250, height: 10 },
+        // { x: 7000, y: canvas.height - 380, width: 250, height: 10 },
+        
+        { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+        { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+        { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
+        { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.height },
+        
+        { x: 0, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width - 2, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 2 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 3 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 4 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 5 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 6 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 7 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 8 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 9 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 10 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+        { x: platformImage.width * 11 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
+
+        // { x: 0, y: canvas.height - 100, width: 250000, height: 100 },
+
+
+        // { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
+        // { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
+        // { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
+        // { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
+        // { x: 6000, y: canvas.height - 50, width: 15000, height: 10 },
+        // Add more platforms as needed
+    ];
     
-    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
-    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
-    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.width },
-    { x: 7000, y: canvas.height - 380, width: platformImage.width, height: platformImage.height },
-    
-    { x: 0, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width - 2, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 2 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 3 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 4 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 5 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 6 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 7 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 8 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 9 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 10 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    { x: platformImage.width * 11 - 3, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-
-    { x: 0, y: canvas.height - 100, width: 250000, height: 100 },
-
-
-    // { x: 0, y: canvas.height - 50, width: 1500, height: 10 },
-    // { x: 2000, y: canvas.height - 50, width: 1500, height: 10 },
-    // { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
-    // { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
-    // { x: 6000, y: canvas.height - 50, width: 15000, height: 10 },
-    // Add more platforms as needed
-];
+    offSet = 0;
+}
 
 // Scrolling Background
 let backgroundX = 0; // Initial background X position
@@ -211,9 +219,9 @@ function updateGame() {
         player.dy = -player.jumpPower; // Jump upwards
     }
 
-    if (offSet > 5000) {
-        console.log("You Win")
-    }
+    // if (offSet > 5000) {
+        // console.log("You Win")
+    // }
 
     // Apply gravity
     player.dy += player.gravity;
@@ -233,8 +241,36 @@ function updateGame() {
         }
     }
 
+    // win condition
+    if (offSet > platformImage.width * 50 - 150) {
+        console.log("You Win");
+        displayWinMessage();
+        setTimeout(() => { 
+            hideMessages();
+        }, 1000);        
+        setTimeout(() => { 
+            init();
+        }, 2000);
+        // offSet = player.x;
+        console.log(offSet);
+    } else if (player.y > canvas.height) { // lose condition
+        console.log("You Lose")
+        displayLoseMessage();
+        setTimeout(() => { 
+            init();
+            hideMessages();
+        }, 1000);
+    }
+
+    // console.log(`Off Set ${offSet} `);
+    // console.log(`Player Positiont ${player.x} `);
     requestAnimationFrame(updateGame);
 }
+
+setInterval(()=>{
+    console.log(`Off Set ${offSet} `);
+    console.log(`Player Positiont ${player.x} `);
+}, 2500)
 
 // Create an object to track key presses.
 const keys = {};
@@ -257,6 +293,39 @@ document.addEventListener("keyup", (event) => {
 
 // image.onload = function(){
 
-    updateGame();
+    // init();
+    // updateGame();
 
 // }
+
+spriteStandRight.onload = function () {
+    // Start the game loop here, after all images are loaded.
+    init();
+    updateGame();
+};
+
+function displayWinMessage() {
+    const winMessage = document.getElementById('winMessage');
+    winMessage.style.display = 'block';
+}
+
+// Example of displaying the "You Lose" message
+function displayLoseMessage() {
+    const loseMessage = document.getElementById('loseMessage');
+    loseMessage.style.display = 'block';
+}
+
+// Add this event listener to restart the game when the "Restart" button is clicked
+const restartButton = document.getElementById('restartButton');
+restartButton.addEventListener('click', () => {
+    // Reset the game state here
+    init(); // You can call your initialization function to reset the game
+    hideMessages(); // Add a function to hide messages
+});
+
+function hideMessages() {
+    const winMessage = document.getElementById('winMessage');
+    const loseMessage = document.getElementById('loseMessage');
+    winMessage.style.display = 'none';
+    loseMessage.style.display = 'none';
+}

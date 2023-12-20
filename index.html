@@ -11,13 +11,40 @@
             padding: 0;
             box-sizing: border-box;
         }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         canvas {
             background-color: black;
+            display: block;
+            margin: auto auto;
+        }
+
+        .message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 24px;
+            z-index: 100000000;
         }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
+
+    <div id="winMessage" class="message">You Win!</div>
+    <div id="loseMessage" class="message">You Lose!</div>
+
+    <button id="restartButton">Restart</button>
     
     <script src="game.js"></script>
 </body>
