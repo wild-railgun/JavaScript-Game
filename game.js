@@ -28,21 +28,8 @@ let spriteStandRight = createImage('./img/spriteStandRight.png');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Scrolling Background
-let backgroundX = 0; // Initial background X position
-const backgroundSpeed = 3; // Speed of background scrolling
-
-// Scrolling Hills
-let backgroundX2 = 0; // Initial hills X position
-const backgroundSpeed2 = 2; // Speed of hills scrolling
-
-// Function init() Variables
 let player = {};
 let platforms = [];
-let objects = [];
-
-// Winning Situation
-let offSet = 0;
 
 function init(){
 
@@ -122,17 +109,22 @@ function init(){
         // { x: 6000, y: canvas.height - 50, width: 15000, height: 10 },
         // Add more platforms as needed
     ];
-
-     // Platforms
-    objects = [
-        {image: background, y: 0, width: background.width, height: canvas.height },
-        {image: hills, y: 0, width: hills.width, height: hills.height },
-        // { x: platformImage.width - 2, y: canvas.height - 130, width: platformImage.width, height: platformImage.height },
-    ];
     
     offSet = 0;
     backgroundX = 0;
+    backgroundX2 = 0;
 }
+
+// Scrolling Background
+let backgroundX = 0; // Initial background X position
+const backgroundSpeed = 3; // Speed of background scrolling
+
+// Scrolling Hills
+let backgroundX2 = 0; // Initial background X position
+const backgroundSpeed2 = 2; // Speed of background scrolling
+
+// Winning Situation
+let offSet = 0;
 
 // A function to draw the player character
 function drawPlayer() {
@@ -153,27 +145,11 @@ function drawPlayer() {
 
 // A function to draw platforms
 function drawPlatforms() {
+    ctx.fillStyle = "green";
     platforms.forEach((platform) => {
       ctx.drawImage(platformImage, platform.x, platform.y, platformImage.width, platformImage.height);
     });
 }
-
-// A function to draw hills and background
-function drawHills() {
-    objects.forEach((object) => {
-        ctx.drawImage(object.image, backgroundX, object.y, object.width, object.height);
-    });
-}
-
-// A function to draw hills and background
-// function drawHills() {
-    // ctx.drawImage(hills, hills.x, hills.y, platformImage.width, platformImage.height);
-// }
-
-// A function to draw hills and background
-// function drawBackground() {
-    //   ctx.drawImage(platformImage, platform.x, platform.y, platformImage.width, platformImage.height);
-// }
 
 // Define a function to update the game's logic.
 function updateGame() {
@@ -194,13 +170,12 @@ function updateGame() {
         player.frame = 0;
     }
 
-    /*ctx.drawImage(background, backgroundX, 0, background.width, canvas.height);*/
+    ctx.drawImage(background, backgroundX, 0, background.width, canvas.height);
     // ctx.drawImage(image, backgroundX, 0, image.width, canvas.height);
     // ctx.drawImage(image, backgroundX + canvas.width, 0, canvas.width, canvas.height);
-    /*ctx.drawImage(hills, backgroundX2, 20, hills.width, hills.height);
-    ctx.drawImage(hills, backgroundX2+800, 20, hills.width, hills.height);*/
+    ctx.drawImage(hills, backgroundX2, 20, hills.width, hills.height);
+    ctx.drawImage(hills, backgroundX2+800, 20, hills.width, hills.height);
     // ctx.drawImage(platformImage, 0, canvas.height-platformImage.height, platformImage.width, platformImage.height);
-    drawHills();
     drawPlayer();
     drawPlatforms();
    
