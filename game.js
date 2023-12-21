@@ -124,7 +124,7 @@ const backgroundSpeed2 = 2; // Speed of background scrolling
 // Winning Situation
 let offSet = 0;
 
-// A function to draw the player character.
+// A function to draw the player character
 function drawPlayer() {
         
    // Draw player sprite
@@ -141,7 +141,7 @@ function drawPlayer() {
     );
 }
 
-// A function to draw the player character.
+// A function to draw platforms
 function drawPlatforms() {
     ctx.fillStyle = "green";
     platforms.forEach((platform) => {
