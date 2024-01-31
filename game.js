@@ -58,7 +58,7 @@ function init(){
         run: {
             right: spriteRunRight,
             cropWidth: 341,
-            width: 127.875, // Ensure this is the correct value you want for the rendered width
+            width: 127.875,
             left: spriteRunLeft
         }
     };
@@ -66,7 +66,7 @@ function init(){
     player.currentCropWidth = player.sprites.stand.cropWidth;
 
     // Add a property to track the last direction
-    player.lastDirection = 'right'; // Initial value can be 'right' or 'left'
+    player.lastDirection = 'right';
 
     // Platforms
     platforms = [
@@ -107,7 +107,6 @@ function init(){
         // { x: 4000, y: canvas.height - 50, width: 1500, height: 10 },
         // { x: 6000, y: canvas.height - 50, width: 1500, height: 10 },
         // { x: 6000, y: canvas.height - 50, width: 15000, height: 10 },
-        // Add more platforms as needed
     ];
     
     offSet = 0;
@@ -136,8 +135,8 @@ function drawPlayer() {
         0,
         player.currentCropWidth,
         400,
-        player.x, // Corrected from player.position.x
-        player.y, // Corrected from player.position.y
+        player.x,
+        player.y,
         player.width, 
         player.height
     );
@@ -151,7 +150,7 @@ function drawPlatforms() {
     });
 }
 
-// Define a function to update the game's logic.
+// A function to update the game's logic.
 function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
@@ -274,14 +273,14 @@ setInterval(()=>{
     console.log(`Player Positiont ${player.x} `);
 }, 2500)
 
-// Create an object to track key presses.
+// An object to track key presses.
 const keys = {};
 
-// Add event listeners to handle key presses.
+// An event listeners to handle key presses.
 document.addEventListener("keydown", (event) => {
   keys[event.key] = true;
     
-  // Add an event listener for jumping (Space key)
+  // An event listener for jumping (Space key)
     if (event.key === " ") {
         event.preventDefault(); // Prevent the spacebar from scrolling the page
     }
@@ -311,18 +310,18 @@ function displayWinMessage() {
     winMessage.style.display = 'block';
 }
 
-// Example of displaying the "You Lose" message
+// Displaying the "You Lose" message
 function displayLoseMessage() {
     const loseMessage = document.getElementById('loseMessage');
     loseMessage.style.display = 'block';
 }
 
-// Add this event listener to restart the game when the "Restart" button is clicked
+// This event listener restarts the game when the "Restart" button is clicked
 const restartButton = document.getElementById('restartButton');
 restartButton.addEventListener('click', () => {
     // Reset the game state here
-    init(); // You can call your initialization function to reset the game
-    hideMessages(); // Add a function to hide messages
+    init(); // initialization function to reset the game
+    hideMessages(); // A function to hide messages
 });
 
 function hideMessages() {
